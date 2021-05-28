@@ -42,12 +42,7 @@
             <td>${item.address}</td>
         </tr>
     </c:forEach>
-
-
     </tbody>
-
-
 </table>
-
 </body>
 </html>
