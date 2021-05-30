@@ -8,17 +8,11 @@ package com.Product_Manage.model;
      * @author Diep
      */
     public class Product implements Serializable{
-        String name, category, description;
-        float price;
+       String name, email;
 
-        public Product() {
-        }
-
-        public Product(String name, String category, String description, float price) {
+        public Product(String name, String email) {
             this.name = name;
-            this.category = category;
-            this.description = description;
-            this.price = price;
+            this.email = email;
         }
 
         public String getName() {
@@ -29,35 +23,15 @@ package com.Product_Manage.model;
             this.name = name;
         }
 
-        public String getCategory() {
-            return category;
+        public String getEmail() {
+            return email;
         }
 
-        public void setCategory(String category) {
-            this.category = category;
+        public void setEmail(String email) {
+            this.email = email;
         }
 
-        public String getDescription() {
-            return description;
+        public Product() {
         }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public float getPrice() {
-            return price;
-        }
-
-        public void setPrice(float price) {
-            this.price = price;
-        }
-
-        @Override
-        public String toString() {
-            return "Product{" + "name=" + name + ", category=" + category + ", description=" + description + ", price=" + price + '}';
-        }
-
-
     }
 
