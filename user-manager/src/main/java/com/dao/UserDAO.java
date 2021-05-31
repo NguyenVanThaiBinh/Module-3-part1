@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class UserDAO implements IUserDAO {
+public class UserDAO  {
     private static String jdbcURL = "jdbc:mysql://localhost:3306/demo";
     private static String jdbcUsername = "root";
     private static String jdbcPassword = "Toilaai123!";
@@ -27,7 +27,7 @@ public class UserDAO implements IUserDAO {
     protected static Connection getConnection() {
         Connection connection = null;
         try {
-
+        Class.forName("com.mysql.jdbc.Driver");
             // nap chong phuong thuc
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
             System.out.println("connect successfully!");
@@ -35,11 +35,33 @@ public class UserDAO implements IUserDAO {
             System.out.println("connect failure!");
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return connection;
     }
+    private static final String SEARCH_USERS_SQL ="select * from users where country like  ? or name like  ? or email like ?;";
+    public List<User> searchUsers(String keyword) throws SQLException {
+        String keyWord = "%"+keyword+"%"; // cu phap cua mysql
+        List<User> userList = new ArrayList<>();
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_USERS_SQL);
+        preparedStatement.setString(1, keyWord);
+        preparedStatement.setString(2, keyWord);
+        preparedStatement.setString(3, keyWord);
+        System.out.println(preparedStatement);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            String email = rs.getString("email");
+            String country = rs.getString("country");
+            userList.add(new User(id, name, email, country));
+        }
+        return userList ;
+    }
 
-    @Override
+
     public void insertUser(User user) {
         System.out.println(INSERT_USERS_SQL);
         // try-with-resource statement will auto close the connection.
@@ -60,8 +82,12 @@ public class UserDAO implements IUserDAO {
     }
 
     // đưa database vào một cái mảng List thôi
-    @Override
-    public List<User> selectAllUsers() {
+    public static void main(String[] args) {
+        UserDAO userDAO = new UserDAO();
+        List<User> userList = userDAO.selectAllUsers();
+        System.out.println(userList);
+    }
+    public  List<User> selectAllUsers() {
         // using try-with-resources to avoid closing resources (boiler plate code)
         List<User> users = new ArrayList<>();
         // Step 1: Establishing a Connection
@@ -88,7 +114,60 @@ public class UserDAO implements IUserDAO {
     }
 
 
-    @Override
+    public static List<User> testList(){
+        // using try-with-resources to avoid closing resources (boiler plate code)
+        List<User> users = new ArrayList<>();
+        // Step 1: Establishing a Connection
+        try (Connection connection = getConnection();
+
+             // Step 2:Create a statement using connection object
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);) {
+            System.out.println(preparedStatement);
+            // Step 3: Execute the query or update query
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // Step 4: Process the ResultSet object.
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String country = rs.getString("country");
+                users.add(new User(id, name, email, country));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getErrorCode());
+        }
+        return users;
+    }
+    private static final String SORT_USERS_SQL = "select * from users ORDER BY name";
+    public List<User> sortByName() {
+        // using try-with-resources to avoid closing resources (boiler plate code)
+        List<User>userList = new ArrayList<>();
+        // Step 1: Establishing a Connection
+        try (Connection connection = getConnection();
+
+             // Step 2:Create a statement using connection object
+             PreparedStatement preparedStatement = connection.prepareStatement(SORT_USERS_SQL);) {
+            System.out.println(preparedStatement);
+            // Step 3: Execute the query or update query
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // Step 4: Process the ResultSet object.
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String country = rs.getString("country");
+                userList.add(new User(id, name, email, country));
+            }
+        } catch (SQLException e) {
+
+        }
+        return userList;
+    }
+
+
+
     public boolean deleteUser(int id) {
         boolean rowDeleted = false;
         try (Connection connection = getConnection();
@@ -103,7 +182,7 @@ public class UserDAO implements IUserDAO {
         return rowDeleted;
     }
 
-    @Override
+
     public   boolean updateUser(User user) {
         boolean rowUpdated = true;
         try (Connection connection = getConnection();
