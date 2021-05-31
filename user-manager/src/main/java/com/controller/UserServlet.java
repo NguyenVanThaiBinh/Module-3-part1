@@ -79,17 +79,7 @@ public class UserServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/list.jsp");
         dispatcher.forward(request, response);
     }
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        User existingUser = userDAO.selectUser(id);
-        String editMsg = "";
-        request.setAttribute("addMsg",editMsg);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user/edit.jsp");
-        request.setAttribute("user", existingUser);
-        dispatcher.forward(request, response);
 
-    }
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String addMsg = "";
@@ -106,9 +96,22 @@ public class UserServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/list.jsp");
         dispatcher.forward(request, response);
     }
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        User existingUser = userDAO.selectUser(id);
+        String editMsg = "";
+        request.setAttribute("addMsg",editMsg);
+        request.setAttribute("user", existingUser);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/edit.jsp");
+
+        dispatcher.forward(request, response);
+
+    }
 
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       //post method
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -117,6 +120,7 @@ public class UserServlet extends HttpServlet {
         User book = new User(id, name, email, country);
         userDAO.updateUser(book);
         String editMsg = "Update complete!";
+        request.setAttribute("user", book);
         request.setAttribute("addMsg",editMsg);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/edit.jsp");
         dispatcher.forward(request, response);

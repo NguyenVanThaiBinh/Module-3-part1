@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.model.User" %>
 <!DOCTYPE html>
 <html>
@@ -17,8 +18,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%  User user= new User();
-    user = (User) request.getAttribute("user");
+<%
+    User user = (User) request.getAttribute("user");
 %>
 <div class="container">
     <div class="panel panel-primary">
@@ -28,39 +29,46 @@
             <%String editMsg = (String) request.getAttribute("addMsg");%>
 
             <br>
-            <c:if test="${editMsg != null}">
-                <h3 style="color: blue"><%=editMsg%></h3>
-            </c:if>
+
+                <h3 style="color: blue"><%=editMsg%>
+                </h3>
+
+
 
         </div>
         <div class="panel-body">
-            <form method="post" >
+            <form method="post">
+
                 <div class="form-group">
                     <label for="name">Name:</label>
 
-                    <input required="true" type="text" value="<%=user.getName() %>" class="form-control" id="name" name="name">
+                    <input required="true" type="text" value="<%=user.getName() %>" class="form-control" id="name"
+                           name="name">
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input required="true" type="email"  value="<%=user.getEmail() %>"class="form-control" id="email" name="email">
+                    <input required="true" type="email" value="<%=user.getEmail() %>" class="form-control" id="email"
+                           name="email">
                 </div>
                 <div class="form-group">
                     <label for="country">Country:</label>
-                    <input required="true"  value="<%=user.getCountry() %>"type="text"class="form-control" id="country" name="country">
+                    <input required="true" value="<%=user.getCountry() %>" type="text" class="form-control" id="country"
+                           name="country">
                 </div>
 
 
-
-                <button class="btn btn-success">Edit User</button>
+                <button type="submit" class="btn btn-success">Edit User</button>
 
             </form>
             <br><br>
             <button class="btn btn-danger" style="float: left">
-                <a href="users"style="color: white"> Back To List</a></button>
+                <a href="users" style="color: white"> Back To List</a></button>
 
 
         </div>
     </div>
+
 </div>
+
 </body>
 </html>

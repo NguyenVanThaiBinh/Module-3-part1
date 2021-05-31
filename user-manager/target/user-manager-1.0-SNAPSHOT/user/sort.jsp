@@ -38,15 +38,16 @@
 
         </div>
         <br><br>
-        <div class="panel-body">
+        <div class="panel-body" style="text-align: center">
             <table class="table table-bordered">
-                <thead>
+                <thead >
                 <tr>
                     <th>STT</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Country</th>
-
+                    <th >Edit</th>
+                    <th>Delete</th>
 
                 </tr>
                 </thead>
@@ -54,13 +55,18 @@
                 <c:forEach var="user" items="${sortUser}">
                     <tr>
 
-                        <td>${user.id}</td></td>
-                        <td>${user.name}</td></td>
-                        <td>${user.email}</td></td>
-                        <td>${user.country}</td></td>
+                        <td>${user.id}</td>
+                        </td>
+                        <td>${user.name}</td>
+                        </td>
+                        <td>${user.email}</td>
+                        </td>
+                        <td>${user.country}</td>
+                        </td>
 
 
-
+                        <td><a href="/users?action=edit&id=${user.id}">Edit</a></td>
+                        <td><a href="/users?action=delete&id=${user.id}">Delete</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

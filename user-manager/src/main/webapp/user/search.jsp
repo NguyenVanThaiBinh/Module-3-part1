@@ -36,36 +36,40 @@
 
 
 
-        </div>
-        <br><br>
-        <div class="panel-body">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Country</th>
-
-
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="user" items="${userList}">
+            <div class="panel-body" style="text-align: center">
+                <table class="table table-bordered">
+                    <thead >
                     <tr>
-
-                        <td>${user.id}</td></td>
-                        <td>${user.name}</td></td>
-                        <td>${user.email}</td></td>
-                        <td>${user.country}</td></td>
-
-
+                        <th>STT</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Country</th>
+                        <th >Edit</th>
+                        <th>Delete</th>
 
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="user" items="${userList}">
+                        <tr>
+
+                            <td>${user.id}</td>
+                            </td>
+                            <td>${user.name}</td>
+                            </td>
+                            <td>${user.email}</td>
+                            </td>
+                            <td>${user.country}</td>
+                            </td>
+
+
+                            <td><a href="/users?action=edit&id=${user.id}">Edit</a></td>
+                            <td><a href="/users?action=delete&id=${user.id}">Delete</a></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         <br><br>
         <button class="btn btn-danger" style="float: left">
             <a href="users"style="color: white"> Back To List</a></button>
